@@ -1,0 +1,105 @@
+# ==========================================
+# CodeAlpha Internship - Python Programming
+# Task 1 : Hangman Game
+# Developed by : Diganta Chakraborty
+# Description :
+# A simple text-based Hangman game where
+# the player guesses one letter at a time.
+# ==========================================
+
+# Importing random module to choose a random word
+import random
+
+# ------------------------------------------
+# List of predefined words
+# ------------------------------------------
+word_list = ["python", "laptop", "science", "rabbit", "network"]
+
+# Randomly selecting one word from the list
+secret_word = random.choice(word_list)
+
+# Creating an empty list to display guessed letters
+guessed_word = ["_"] * len(secret_word)
+
+# Maximum incorrect attempts allowed
+max_attempts = 6
+
+# Variable to count wrong guesses
+wrong_attempts = 0
+
+# List to store already guessed letters
+guessed_letters = []
+
+# ------------------------------------------
+# Welcome Message
+# ------------------------------------------
+print("===================================")
+print("     WELCOME TO HANGMAN GAME")
+print("===================================")
+
+# Main game loop
+while wrong_attempts < max_attempts and "_" in guessed_word:
+
+    # Display current word progress
+    print("\nCurrent Word : ", " ".join(guessed_word))
+
+    # Display guessed letters
+    print("Guessed Letters :", guessed_letters)
+
+    # Display remaining chances
+    print("Remaining Attempts :", max_attempts - wrong_attempts)
+
+    # Taking user input
+    guess = input("\nEnter a letter : ").lower()
+
+    # ------------------------------------------
+    # Input Validation
+    # ------------------------------------------
+
+    # Check if input is a single alphabet
+    if len(guess) != 1 or not guess.isalpha():
+        print("Invalid input! Please enter only one alphabet.")
+        continue
+
+    # Check if letter already guessed
+    if guess in guessed_letters:
+        print("You already guessed this letter!")
+        continue
+
+    # Store guessed letter
+    guessed_letters.append(guess)
+
+    # ------------------------------------------
+    # Checking guessed letter
+    # ------------------------------------------
+
+    if guess in secret_word:
+        print("Correct Guess!")
+
+        # Reveal correct letter positions
+        for index in range(len(secret_word)):
+            if secret_word[index] == guess:
+                guessed_word[index] = guess
+
+    else:
+        print("Wrong Guess!")
+        wrong_attempts += 1
+
+# ------------------------------------------
+# Game Result
+# ------------------------------------------
+
+print("\n===================================")
+
+# If player guessed the complete word
+if "_" not in guessed_word:
+    print("Congratulations! You Won!")
+    print("The word was :", secret_word)
+
+# If player lost all attempts
+else:
+    print("Game Over!")
+    print("You Lost!")
+    print("The correct word was :", secret_word)
+
+print("===================================")
